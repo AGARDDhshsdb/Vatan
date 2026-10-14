@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ما یادمون نمیره</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #0b0d0f;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: system-ui, -apple-system, sans-serif;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            background-color: #0b0d0f;
+        }
+
+        /* تنظیم نمایش عکس یادبود به بهترین شکل ممکن در صفحه */
+        .memorial-img {
+            max-width: 100%;
+            max-height: 100vh;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            display: block;
+        }
+
+        /* پیغام راهنما روی صفحه */
+        .play-hint {
+            position: absolute;
+            bottom: 25px;
+            color: #ffffff;
+            font-size: 13px;
+            background: rgba(0, 0, 0, 0.75);
+            padding: 8px 18px;
+            border-radius: 20px;
+            backdrop-filter: blur(5px);
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            z-index: 10;
+        }
+    </style>
+</head>
+<body onclick="playAudio()">
+
+    <div class="container">
+        <!-- تصویر یادبود آپلود شده -->
+        <img class="memorial-img" src="flag.jpg" alt="ما یادمون نمیره">
+        
+        <div id="hint" class="play-hint">برای پخش / توقف آهنگ روی صفحه لمس کنید</div>
+    </div>
+
+    <!-- فایل آهنگ شما -->
+    <audio id="bg-music" loop autoplay src="music.mp3"></audio>
+
+    <script>
+        const audio = document.getElementById('bg-music');
+        const hint = document.getElementById('hint');
+
+        // تلاش برای پخش خودکار هنگام ورود به صفحه
+        window.addEventListener('DOMContentLoaded', () => {
+            audio.play().then(() => {
+                hint.style.opacity = '0';
+            }).catch(() => {
+                // اگر مرورگر خودکار پخش نکرد، با لمس کاربر پخش می‌شود
+            });
+        });
+
+        // پخش یا توقف با لمس صفحه
+        function playAudio() {
+            if (audio.paused) {
+                audio.play();
+                hint.style.opacity = '0';
+            } else {
+                audio.pause();
+                hint.style.opacity = '1';
+            }
+        }
+    </script>
+</body>
+</html>
